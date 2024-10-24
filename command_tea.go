@@ -115,6 +115,11 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		// When in the input state
 		case getInputState:
 			switch keypress {
+			case "backspace":
+				m.input = m.input[:len(m.input)-1]
+			case "ctrl+c":
+				m.quitting = true
+				return m, tea.Quit
 			case "enter":
 				// Call the function with the input and reset
 				switch m.choice {
@@ -139,8 +144,13 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 					}
 					m.todos.edit(index-1, parts[1])
 				}
-				m.quitting = true
-				return m, tea.Quit
+				// m.quitting = true
+				m.input = ""
+
+				m.state = chooseItemState
+
+				// return m, tea.Quit
+				return m, nil
 
 			default:
 				// Collect input from the user

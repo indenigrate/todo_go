@@ -227,8 +227,30 @@ func (todos *Todos) renderTodos() string {
 			}
 			createdAt = "" + createdAt
 		}
-		output.WriteString(fmt.Sprintf("%-5d %-40s %-15s %-35s %-40s\n", index+1, todo.Title, completed, createdAt, completedAt))
+
+		if len(todo.Title) <= 40 {
+			output.WriteString(fmt.Sprintf("%-5d %-40s %-15s %-35s %-40s\n", index+1, todo.Title, completed, createdAt, completedAt))
+		} else {
+			//split string
+			s := splitInParts(todo.Title)
+			output.WriteString(fmt.Sprintf("%-5d %-40s %-15s %-35s %-40s\n", index+1, s[0], completed, createdAt, completedAt))
+			for i := 1; i < len(s); i++ {
+				// output.WriteString(fmt.Sprintf("%-5s %-40s %-15s %-35s %-40s\n", "", s[i], "", "", ""))
+				output.WriteString(fmt.Sprintf("%-5s %-40s\n", "  ", s[i]))
+			}
+		}
 	}
 
 	return output.String()
+}
+
+func splitInParts(s string) []string {
+	n := len(s) / 40
+	ans := make([]string, 0)
+	for i := 0; i < n; i++ {
+		ans = append(ans, s[i*40:40*(i+1)])
+
+	}
+	ans = append(ans, s[40*n:])
+	return ans
 }

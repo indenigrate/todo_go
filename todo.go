@@ -3,12 +3,7 @@ package main
 import (
 	"errors"
 	"fmt"
-	"os"
-	"strconv"
 	"time"
-
-	"github.com/aquasecurity/table"
-	"github.com/enescakir/emoji"
 )
 
 type Todo struct {
@@ -70,22 +65,23 @@ func (todos *Todos) edit(index int, title string) error {
 	(*todos)[index].Title = title
 	return nil
 }
-func (todos *Todos) print() {
-	table := table.New(os.Stdout)
-	table.SetRowLines(false)
-	table.SetHeaders("#", "Title", "Completed", "Created At", "Completed At")
 
-	for index, t := range *todos {
-		completed := emoji.CrossMark.String()
-		completedAt := ""
-		if t.Completed {
-			completed = emoji.CheckMark.String()
-			if t.CompletedAt != nil {
-				completedAt = t.CompletedAt.Format(time.RFC1123)
-			}
-		}
+// func (todos *Todos) print() {
+// 	table := table.New(os.Stdout)
+// 	table.SetRowLines(false)
+// 	table.SetHeaders("#", "Title", "Completed", "Created At", "Completed At")
 
-		table.AddRow(strconv.Itoa(index), t.Title, completed, t.CreatedAt.Format(time.RFC1123), completedAt)
-	}
-	table.Render()
-}
+// 	for index, t := range *todos {
+// 		completed := emoji.CrossMark.String()
+// 		completedAt := ""
+// 		if t.Completed {
+// 			completed = emoji.CheckMark.String()
+// 			if t.CompletedAt != nil {
+// 				completedAt = t.CompletedAt.Format(time.RFC1123)
+// 			}
+// 		}
+
+// 		table.AddRow(strconv.Itoa(index), t.Title, completed, t.CreatedAt.Format(time.RFC1123), completedAt)
+// 	}
+// 	table.Render()
+// }

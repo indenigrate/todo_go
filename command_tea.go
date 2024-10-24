@@ -215,7 +215,7 @@ func (todos *Todos) renderTodos() string {
 			if todo.CompletedAt != nil {
 				completedAt = todo.CompletedAt.Format(time.RFC1123)
 			}
-			createdAt = "  " + createdAt
+			createdAt = "" + createdAt
 		}
 		output.WriteString(fmt.Sprintf("%-5d %-40s %-15s %-35s %-40s\n", index+1, todo.Title, completed, createdAt, completedAt))
 	}
